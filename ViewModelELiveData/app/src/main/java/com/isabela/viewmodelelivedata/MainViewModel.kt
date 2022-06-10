@@ -1,12 +1,13 @@
 package com.isabela.viewmodelelivedata
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
 
-    var cont = 0
+    var cont = MutableLiveData<Int>(0)
 
     fun addNum(){
-        cont++
+        cont.value = cont.value?.plus(1)
     }
 }

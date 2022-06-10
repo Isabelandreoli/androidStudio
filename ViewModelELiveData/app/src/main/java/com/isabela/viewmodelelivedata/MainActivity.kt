@@ -18,11 +18,12 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProvider(this)
             .get(MainViewModel::class.java)
 
-        binding.textCont.text = mainViewModel.cont.toString()
+        mainViewModel.cont.observe(this){
+            binding.textCont.text = it.toString()
+        }
 
         binding.buttonSmile.setOnClickListener {
             mainViewModel.addNum()
-            binding.textCont.text = mainViewModel.cont.toString()
         }
 
     }
