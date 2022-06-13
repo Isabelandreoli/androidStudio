@@ -1,17 +1,22 @@
 package com.isabela.lembrete
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isabela.lembrete.api.Repository
 import com.isabela.lembrete.model.Categoria
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.time.LocalDate
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
-
-    val repository = Repository()
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: Repository
+        ): ViewModel() {
 
     private val _myCategoriaResponse =
         MutableLiveData<Response<List<Categoria>>>()
@@ -19,9 +24,22 @@ class MainViewModel : ViewModel() {
     val myCategoriaResponse: LiveData<Response<List<Categoria>>> =
         _myCategoriaResponse
 
+    val dataSelecionada = MutableLiveData<LocalDate>()
+
+    init {
+       // listCategoria()
+    }
+
     fun listCategoria(){
         viewModelScope.launch {
-            _myCategoriaResponse.value = repository.listCategoria()
+            try {
+
+                val response = repository.listCategoria()
+                _myCategoriaResponse.value = response
+
+            }catch (e: Exception){
+                Log.d("Erro", e.message.toString())
+            }
         }
     }
 
