@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isabela.lembrete.api.Repository
 import com.isabela.lembrete.model.Categoria
+import com.isabela.lembrete.model.Tarefa
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.time.LocalDate
@@ -24,6 +26,12 @@ class MainViewModel @Inject constructor(
     val myCategoriaResponse: LiveData<Response<List<Categoria>>> =
         _myCategoriaResponse
 
+    private val _myTarefaResponse =
+        MutableLiveData<Response<List<Tarefa>>>()
+
+    val myTarefaResponse: LiveData<Response<List<Tarefa>>> =
+        _myTarefaResponse
+
     val dataSelecionada = MutableLiveData<LocalDate>()
 
     init {
@@ -31,12 +39,35 @@ class MainViewModel @Inject constructor(
     }
 
     fun listCategoria(){
-        viewModelScope.launch {
+        viewModelScope.launch{
             try {
 
                 val response = repository.listCategoria()
                 _myCategoriaResponse.value = response
 
+            }catch (e: Exception){
+                Log.d("Erro", e.message.toString())
+            }
+        }
+    }
+
+    fun addTarefa(tarefa: Tarefa){
+        viewModelScope.launch {
+            try {
+                val response = repository.addTarefa(tarefa)
+                Log.d("Opa", response.body().toString())
+                listTarefa()
+            }catch (e: Exception){
+                Log.d("Erro", e.message.toString())
+            }
+        }
+    }
+
+    fun listTarefa(){
+        viewModelScope.launch {
+            try {
+                val response = repository.listTarefa()
+                _myTarefaResponse.value = response
             }catch (e: Exception){
                 Log.d("Erro", e.message.toString())
             }
