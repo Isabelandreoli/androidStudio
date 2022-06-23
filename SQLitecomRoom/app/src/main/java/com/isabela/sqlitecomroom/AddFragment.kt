@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.isabela.sqlitecomroom.data.Usuario
 import com.isabela.sqlitecomroom.databinding.FragmentAddBinding
-import com.isabela.sqlitecomroom.databinding.FragmentListBinding
 
 class AddFragment : Fragment() {
 
