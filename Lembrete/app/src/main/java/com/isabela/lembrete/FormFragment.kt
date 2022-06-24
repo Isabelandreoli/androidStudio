@@ -105,8 +105,10 @@ class FormFragment : Fragment(), TimerPickerListener {
         val data = binding.editData.text.toString()
         val status = binding.switchAtivoCard.isChecked
         val categoria = Categoria(categoriaSelecionada, null, null)
+        Log.d("categoria", categoria.id.toString())
 
         if(validarCampos(nome, desc, resp)){
+
             val salvar: String
             if(tarefaSelecionada != null){
                 salvar = "Tarefa atualiazada!"
